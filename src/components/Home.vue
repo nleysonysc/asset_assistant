@@ -1,17 +1,26 @@
 <script setup>
   import SearchBar from "./SearchBar.vue"
+  import searchResultItem from "./searchResultItem.vue"
+  import { useAssetStore } from '../stores/assetStore'
+
+  let assetStore = useAssetStore();
   // check auth
   // show appropriate actions for auth level
 
+  function test() {
+    console.log(assetStore.activeAsset)
+  }
 </script>
 
 <template>
   <div class="greetings">
     <SearchBar />
-    <h3>
-      
-    </h3>
+    <ul>
+      <searchResultItem v-for="result in assetStore.searchResult" :result="result" :key="result[0]"  />
+    </ul>
+    {{ assetStore.activeAsset }}
   </div>
+  <button @click="test">test</button>
 </template>
 
 <style scoped>

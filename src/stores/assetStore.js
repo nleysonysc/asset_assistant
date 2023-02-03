@@ -1,16 +1,19 @@
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAssetStore = defineStore('asset', () => {
-  const activeAsset = ref([])
+  let activeAsset = ref(new Map())
+  const searchResult = ref([])
 
   function fetchAsset(rowNum) {
-    return new Map([["Serial", 'FE34AH4'], ["Tag", "asdf1234"], ["RowNum", rowNum]])
+    activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Tag", "asdf1234"], ["RowNum", rowNum]])
+    return activeAsset
   }
 
   function searchAssets(search) {
-    return [[3, search], [5, 'asdf4657'], [2, 'asdf5656']]
+    searchResult.value = [[3, search], [5, 'asdf4657'], [2, 'asdf5656']]
+    return searchResult
   }
 
-  return { activeAsset, fetchAsset, searchAssets }
+  return { activeAsset, fetchAsset, searchAssets, searchResult }
 })
