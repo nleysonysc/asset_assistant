@@ -18,7 +18,6 @@
     <ul>
       <searchResultItem v-for="result in assetStore.searchResult" :result="result" :key="result[0]"  />
     </ul>
-    {{ assetStore.activeAsset }}
   </div>
   <button @click="test">test</button>
 </template>

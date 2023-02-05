@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <input type="text" name="search" v-model="searchValue" @change="filterResults" />
+  <input type="text" name="search" v-model="assetStore.searchValue" @input="filterResults" />
 </template>
 
 <style scoped>

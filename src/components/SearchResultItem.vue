@@ -1,5 +1,6 @@
 <script setup>
-  import {ref} from 'vue'
+  import { ref } from 'vue'
+  import { RouterLink } from 'vue-router'
   import { useAssetStore } from '../stores/assetStore'
 
   let assetStore = useAssetStore()
@@ -13,11 +14,13 @@
 </script>
 
 <template>
-  <li @click="(e)=>{onClick(e, result)}">
-    {{ result }}
+  <li>
+    <RouterLink :to="`/asset/${result[0]}`">{{ result }}</RouterLink>
   </li>
 </template>
 
 <style scoped>
-
+  li {
+    list-style-type: none;
+  }
 </style>
