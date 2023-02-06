@@ -6,11 +6,11 @@
 </script>
 
 <template>
-  <div>
-    <input type="text" name="search" v-model="assetStore.searchTerm" />
-  </div>
+  <main>
+    <input type="text" name="tagPrefix" />
+  </main>
+    
 </template>
 
 <style scoped>
-
 </style>

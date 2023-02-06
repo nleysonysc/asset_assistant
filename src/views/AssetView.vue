@@ -5,8 +5,8 @@
   let assetStore = useAssetStore()
   let route = useRoute()
   
-  assetStore.fetchAsset(route.params.rowNum)
-
+  if ("rowNum" in route.params) { assetStore.fetchAssetByRow(route.params.rowNum) }
+  else if ("assetTag" in route.params) { assetStore.fetchAssetByTag(route.params.assetTag) }
 </script>
 
 <template>

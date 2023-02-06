@@ -1,4 +1,5 @@
 <script setup>
+  import Search from "../components/Search.vue"
   import { useAssetStore } from '../stores/assetStore'
 
   let assetStore = useAssetStore();
@@ -6,11 +7,15 @@
 </script>
 
 <template>
-  <div>
-    <input type="text" name="search" v-model="assetStore.searchTerm" />
-  </div>
+  <main>
+    <Search />
+    
+    <textarea name="tags">
+
+    </textarea>
+  </main>
+    
 </template>
 
 <style scoped>
-
 </style>

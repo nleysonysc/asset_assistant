@@ -1,17 +1,20 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
-  let activeUser;
+  let activeUser = ref({});
 
-  const fetchActiveUser = function() {
-    activeUser = {name: "user's name", email: "user's email"}
-    return activeUser
+  const fetchActiveUser = async function(admin) {
+    activeUser.value = {
+      name: "user's name", 
+      email: "user's email", 
+      auth: admin === true ? "ADMIN" : "USER"
+    }
+    return new Promise((resolve, reject)=>{
+      resolve(activeUser)
+      reject("Could not access user object")
+    })
   }
 
-  const checkAuth = function() {
-    return "USER"
-  }
-
-  return { activeUser, fetchActiveUser, checkAuth }
+  return { activeUser, fetchActiveUser }
 })
