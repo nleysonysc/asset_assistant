@@ -8,7 +8,7 @@ export const useAssetStore = defineStore('asset', () => {
   let searchTerm = ref("")
 
   async function fetchAssetByRow(rowNum) {
-    activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Tag", "asdf1234"], ["RowNum", rowNum]])
+    activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Tag", "asdf1234"], ["RowNum", rowNum]])
     return new Promise((resolve, reject) => {
       resolve(activeAsset)
       reject("Could not find asset at row "+rowNum)
@@ -16,7 +16,7 @@ export const useAssetStore = defineStore('asset', () => {
   }
 
   async function fetchAssetByTag(tag) {
-    activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Tag", tag], ["RowNum", 5]])
+    activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Tag", tag], ["RowNum", 5]])
     return new Promise((resolve, reject) => {
       resolve(activeAsset)
       reject("Could not find asset with tag "+tag)
