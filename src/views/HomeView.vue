@@ -4,9 +4,11 @@
 
   let assetStore = useAssetStore();
 
+
   function test() {
     console.log(assetStore.activeAsset)
   }
+
 </script>
 
 <template>
