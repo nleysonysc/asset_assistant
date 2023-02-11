@@ -13,23 +13,34 @@
     showScanner.value = "BarcodeDetector" in window ? true : false;
   });
 
+  let darkMode = ref(true);
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-      
-      <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
-      {{ userStore.activeUser }}
-      
-      <Scanner v-if="showScanner" />
-    </div>
-  </header>
+  <v-theme-provider :theme="darkMode ? 'dark' : 'light'">
+  <v-app>
+    <v-main>
+      <v-container fluid>
+        <v-app-bar app dense>
+          <nav>
+            <RouterLink to="/">Home</RouterLink>
+          </nav>
+          
+          <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
+          {{ userStore.activeUser }}
+          
+          <Scanner v-if="showScanner" />
 
-  <RouterView />
+          <v-btn @click="_=> darkMode = !darkMode">
+            <v-icon>mdi-brightness-4</v-icon>
+          </v-btn>
+        </v-app-bar>
+
+        <RouterView />
+      </v-container>
+    </v-main>
+  </v-app>
+</v-theme-provider>
 </template>
 
 <style scoped>

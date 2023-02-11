@@ -39,7 +39,11 @@ export const useAssetStore = defineStore('asset', () => {
   watch(searchTerm, async(newTerm, oldTerm) => {
     // fetch from backend and update search result
     if (newTerm.length > 2) {
-      searchSuggestions.value = [[3, newTerm], [5, 'asdf4657'], [2, 'asdf5656']]
+      searchSuggestions.value = [
+        {rowNum: 3, field: {name: 'Asset', value: newTerm}},
+        {rowNum: 7, field: {name: 'Asset', value: 'asdf4657'}},
+        {rowNum: 4, field: {name: 'Asset', value: 'asdf5656'}}
+      ]
     }
   })
 
