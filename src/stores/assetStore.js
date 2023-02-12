@@ -8,6 +8,26 @@ export const useAssetStore = defineStore('asset', () => {
   let searchTerm = ref("")
   let loading = ref(false)
 
+  function activeAssetHandler(response){
+    response = JSON.parse(response)
+    if ('error' in response) {
+      console.log(response.error)
+    }
+    else {
+      activeAsset.value = new Map(JSON.parse(response.result))
+    }
+  }
+
+  function searchSuggestionsHandler(response){
+    response = JSON.parse(response)
+    if ('error' in response) {
+      console.log(response.error)
+    }
+    else {
+      searchSuggestions.value = response.result
+    }
+  }
+
   async function fetchAssetByRow(rowNum) {
     if (import.meta.env.DEV) {
       activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Tag", "asdf1234"], ["RowNum", rowNum]])
@@ -17,7 +37,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
     
-    google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetByRow(rowNum);
+    google.script.run.withSuccessHandler(activeAssetHandler).getAssetByRow(rowNum);
   }
 
   async function fetchAssetByTag(tag) {
@@ -29,7 +49,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
 
-    google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetByTag();
+    google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
 
   }
 
@@ -42,7 +62,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
 
-    google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetBySerial();
+    google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
   }
 
   async function fetchSearch(){
@@ -72,7 +92,7 @@ export const useAssetStore = defineStore('asset', () => {
           {rowNum: 4, headerName: 'Asset', value: 'asdf5656'}
         ]
       }
-      google.script.run.withSuccessHandler(result=> {searchSuggestions.value = result}).searchByHeaderNames(newTerm);
+      google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
     }
   })
 

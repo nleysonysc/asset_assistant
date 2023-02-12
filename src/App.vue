@@ -8,7 +8,7 @@
   import Search from './components/Search.vue'
 
   let userStore = useUserStore();
-  userStore.fetchActiveUser(true);
+  userStore.fetchActiveUser();
   let router = useRouter()
 
   let mobileScanner = ref(false);
@@ -33,7 +33,6 @@
           </nav>
           
           <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
-          {{ userStore.activeUser }}
 
           <v-btn @click="_=> showSearchDialog = true">
             <v-icon size="x-large">mdi-magnify</v-icon>

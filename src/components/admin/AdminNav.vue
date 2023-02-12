@@ -1,3 +1,9 @@
+<script setup>
+  import { useUserStore } from '../../stores/userStore';
+
+  let userStore = useUserStore();
+</script>
+
 <template>
   <nav>
     <ul>

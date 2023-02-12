@@ -4,6 +4,16 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', () => {
   let activeUser = ref({});
 
+  function activeUserHandler(response) {
+    response = JSON.parse(response)
+    if ('error' in response) {
+      console.log(response.error)
+    }
+    else {
+      activeUser.value = response.result
+    }
+  }
+
   const fetchActiveUser = async function() {
     if (import.meta.env.DEV) {
       let admin = true
@@ -17,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
       })
     }
 
-    google.script.run.withSuccessHandler(response=> {activeUser.value = response.result}).activeUser();
+    google.script.run.withSuccessHandler(activeUserHandler).activeUser();
   }
 
   return { activeUser, fetchActiveUser }
