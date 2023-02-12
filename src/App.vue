@@ -2,6 +2,7 @@
   import { onMounted, ref } from 'vue';
   import { RouterLink, RouterView, useRouter } from 'vue-router'
   import { useUserStore } from './stores/userStore'
+  import MobileScanner from "./components/MobileScanner.vue"
   import Scanner from "./components/Scanner.vue"
   import AdminNav from "./components/admin/AdminNav.vue"
   import Search from './components/Search.vue'
@@ -10,14 +11,15 @@
   userStore.fetchActiveUser(true);
   let router = useRouter()
 
-  let showScanner = ref(false);
+  let mobileScanner = ref(false);
   onMounted(()=>{
-    showScanner.value = "BarcodeDetector" in window ? true : false;
+    mobileScanner.value = "BarcodeDetector" in window ? true : false;
   });
 
   let darkMode = ref(true);
   let showSearchDialog = ref(false);
-  let showScanDialog = ref(false);
+  let showMobileScanner = ref(false);
+  let showScanner = ref(false);
 </script>
 
 <template>
@@ -37,14 +39,14 @@
             <v-icon size="x-large">mdi-magnify</v-icon>
           </v-btn>
 
-          <v-btn v-if="showScanner" @click="_=> showScanDialog = true">
-            <v-icon size="x-large">mdi-barcode</v-icon>
+          <v-btn @click="mobileScanner ? _=> showMobileScanner = true : _=> false">
+            <v-icon size="medium" :color="mobileScanner ? '' : 'error'">{{ mobileScanner ? 'mdi-cellphone-screenshot' : 'mdi-cellphone-off' }}</v-icon>
+            <v-icon size="medium" :color="mobileScanner ? '' : 'error'">mdi-barcode</v-icon>
           </v-btn>
-          <v-tooltip v-else text="Barcode scanning is not available">
-            <template v-slot:activator="{ props }">
-              <v-btn ><v-icon size="x-large" v-bind="props" color="warning">mdi-barcode-off</v-icon></v-btn>
-            </template>
-          </v-tooltip>
+
+          <v-btn @click="showScanner = true">
+            <v-icon size="x-large">mdi-tag-arrow-right</v-icon>
+          </v-btn>
 
           <v-btn @click="_=> darkMode = !darkMode">
             <v-icon size="x-large">mdi-brightness-4</v-icon>
@@ -69,11 +71,33 @@
         </v-dialog>
 
         <v-dialog
-          v-model="showScanDialog"
+          v-model="showMobileScanner"
           width="w-100"
         >
           <v-card>
-            <v-btn @click="showScanDialog = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+            <v-card-actions>
+              <v-icon color="secondary">mdi-barcode-scan</v-icon>
+              <v-spacer></v-spacer>
+              <v-btn @click="showMobileScanner = false">
+                <v-icon>mdi-close-circle-outline</v-icon>
+              </v-btn>
+            </v-card-actions>
+            <MobileScanner />
+          </v-card>
+        </v-dialog>
+
+        <v-dialog
+          v-model="showScanner"
+          width="w-100"
+        >
+          <v-card>
+            <v-card-actions>
+              <v-icon color="secondary">mdi-tag-arrow-right</v-icon>
+              <v-spacer></v-spacer>
+              <v-btn @click="showScanner = false">
+                <v-icon>mdi-close-circle-outline</v-icon>
+              </v-btn>
+            </v-card-actions>
             <Scanner />
           </v-card>
         </v-dialog>

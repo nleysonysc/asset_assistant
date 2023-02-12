@@ -1,13 +1,15 @@
 <script setup>
-  import { useAssetStore } from '../stores/assetStore'
+  import { onMounted, ref } from 'vue';
+import { useAssetStore } from '../stores/assetStore'
   
   let assetStore = useAssetStore();
+
 
 </script>
 
 <template>
   <div>
-    Scanner
+    <input type="text" />
   </div>
 </template>
 
