@@ -1,7 +1,7 @@
 <script setup>
   import { useAssetStore } from '../stores/assetStore'
   import Search from "../components/Search.vue"
-
+  
   let assetStore = useAssetStore();
 
 </script>
