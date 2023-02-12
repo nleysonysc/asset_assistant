@@ -20,6 +20,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   function searchSuggestionsHandler(response){
     response = JSON.parse(response)
+    console.log(response)
     if ('error' in response) {
       console.log(response.error)
     }
