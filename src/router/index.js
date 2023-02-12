@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AssetView from '../views/AssetView.vue'
+import BulkEditView from '../views/BulkEditView.vue'
+import BulkAddView from '../views/BulkAddView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,22 +15,22 @@ const router = createRouter({
     {
       path: '/asset/:rowNum(\\d+)',
       name: 'assetByRowNum',
-      component: () => import('../views/AssetView.vue')
+      component: AssetView
     },
     {
       path: '/asset/:assetTag([a-zA-Z]{4}\\d{4})',
       name: 'assetByTag',
-      component: () => import('../views/AssetView.vue')
+      component: AssetView
     },
     {
       path: '/admin/bulkedit',
       name: 'bulkedit',
-      component: () => import('../views/BulkEditView.vue')
+      component: BulkEditView
     },
     {
       path: '/admin/bulkadd',
       name: 'bulkadd',
-      component: () => import('../views/BulkAddView.vue')
+      component: BulkAddView
     }
   ]
 })

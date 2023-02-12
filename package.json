@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "set NODE_ENV=development && vite",
     "build": "vite build && node ./bin/as_build.js",
     "preview": "vite preview",
     "deploy": "vite build && node ./bin/as_build.js && cd ./as_build && clasp push",
