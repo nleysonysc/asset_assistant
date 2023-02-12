@@ -9,6 +9,7 @@ export const useAssetStore = defineStore('asset', () => {
   let loading = ref(false)
 
   function activeAssetHandler(response){
+    loading.value = false
     response = JSON.parse(response)
     if ('error' in response) {
       console.log(response.error)
@@ -19,6 +20,7 @@ export const useAssetStore = defineStore('asset', () => {
   }
 
   function searchSuggestionsHandler(response){
+    this.loading.value = false
     response = JSON.parse(response)
     console.log(response)
     if ('error' in response) {
@@ -31,39 +33,48 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function fetchAssetByRow(rowNum) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Tag", "asdf1234"], ["RowNum", rowNum]])
+      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", "asdf1234"], ["RowNum", rowNum]])
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset at row "+rowNum)
       })
     }
     
-    google.script.run.withSuccessHandler(activeAssetHandler).getAssetByRow(rowNum);
+    else {
+      this.loading.value
+      google.script.run.withSuccessHandler(activeAssetHandler).getAssetByRow(rowNum);
+    }
   }
 
   async function fetchAssetByTag(tag) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Tag", tag], ["RowNum", 5]])
+      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", tag], ["RowNum", 5]])
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset with tag "+tag)
       })
     }
 
-    google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
+    else {
+      this.loading.value
+      google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
+    }
 
   }
 
   async function fetchAssetBySerial(serialNum) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", serialNum], ["Location", "room 12"], ["Tag", 'tag'], ["RowNum", 5]])
+      activeAsset.value = new Map([["Serial", serialNum], ["Location", "room 12"], ["Checked_In", true], ["Tag", 'tag'], ["RowNum", 5]])
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset with tag "+tag)
       })
     }
 
-    google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
+    else {
+      this.loading.value
+      google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
+    }
   }
 
   async function fetchSearch(){
@@ -79,12 +90,14 @@ export const useAssetStore = defineStore('asset', () => {
         reject("Could not find asset with tag "+tag)
       })
     }
-
-    google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetBySerial();
+    else {
+        this.loading.value = true
+        google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetBySerial();
+    }
   }
 
   watch(searchTerm, async(newTerm, oldTerm) => {
-    // fetch from backend and update search result
+    // fetch search suggestions from backend
     if (newTerm.length > 2) {
       if (import.meta.env.DEV) {
         searchSuggestions.value = [
@@ -93,7 +106,10 @@ export const useAssetStore = defineStore('asset', () => {
           {rowNum: 4, headerName: 'Asset', value: 'asdf5656'}
         ]
       }
-      google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
+      else {
+        this.loading.value = true
+        google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
+      }
     }
   })
 

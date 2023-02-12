@@ -8,7 +8,9 @@
   
   if ("rowNum" in route.params) { 
     watch(_=> route.params.rowNum, async (newRowNum) => {
-      assetStore.fetchAssetByRow(newRowNum)
+      if (newRowNum){
+        assetStore.fetchAssetByRow(newRowNum)
+      }
     }, {immediate: true})
   }
   else if ("assetTag" in route.params) { 
@@ -17,23 +19,24 @@
 </script>
 
 <template>
-  <div>
-    {{ assetStore.activeAsset }}
-    <span>Show basic info (location, user, checked in, etc) {{ assetStore.activeAsset.get("Location") }}</span>
-    <ul>
-      <li><v-btn>Check In(v if checked out)</v-btn></li>
-      <li><v-btn>Check Out(v if checked in, show modal with check out form)</v-btn></li>
-      <li><v-btn>
-        <a href="https://mail.google.com/mail/?view=cm&to=name@example.com&su=SUBJECT&body=BODY&bcc=dakota@example.com" target="_blank">Submit Ticket</a>
-        </v-btn>
-      </li>
-    </ul>
-    
-  </div>
+    <v-row>
+      <v-col>
+        <span>Show basic info (location, user, checked in, etc) {{ assetStore.activeAsset.get("Location") }}</span>
+      </v-col>
+      <v-col>
+        <v-list nav>
+          <v-list-item v-if="assetStore.activeAsset.get('Checked_In')"><v-btn>Check Out</v-btn></v-list-item>
+          <v-list-item v-else><v-btn>Check In</v-btn></v-list-item>
+          <v-list-item>
+            <v-btn :disabled="assetStore.loading">
+              <a :href="`https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su=${encodeURIComponent('Tag: '+assetStore.activeAsset.get('Tag'))}&body=`" target="_blank">Submit Ticket</a>
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-col>
+
+    </v-row>
 </template>
 
 <style scoped>
-  ul {
-    list-style-type: none;
-  }
 </style>

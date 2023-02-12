@@ -27,8 +27,10 @@
     item-title="value"
     item-value="rowNum"
     label="Search"
-    hint="Type an asset or serial number"
+    hint="Start typing an asset or serial number"
     hide-no-data
+    autofocus
+    :loading="assetStore.loading"
     density="comfortable"
   >
     <template v-slot:item="{ props, item }">
