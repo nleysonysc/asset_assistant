@@ -14,9 +14,7 @@
 <template>
   <main>
     <Search />
-    <v-btn @click="test">test</v-btn>
   </main>
-    
 </template>
 
 <style scoped>
