@@ -97,7 +97,7 @@
                 <v-icon>mdi-close-circle-outline</v-icon>
               </v-btn>
             </v-card-actions>
-            <Scanner />
+            <Scanner :onNavigate="_=> showScanner = false" />
           </v-card>
         </v-dialog>
 

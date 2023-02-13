@@ -57,7 +57,7 @@ export const useAssetStore = defineStore('asset', () => {
 
     else {
       loadingAsset.value = true
-      google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
+      google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag(tag);
     }
 
   }
@@ -73,7 +73,7 @@ export const useAssetStore = defineStore('asset', () => {
 
     else {
       loadingAsset.value = true
-      google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
+      google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial(serialNum);
     }
   }
 

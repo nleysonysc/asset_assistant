@@ -13,13 +13,13 @@
 
   watch(rowNum, async(newRow, oldRow) => {
     if (typeof props.onSelect == "function") {props.onSelect(newRow)}
-    router.push({name: 'assetByRowNum', params: {rowNum: newRow}})
+    router.push({name: 'assetByRowNum', params: {'rowNum': newRow}})
   });
 
 </script>
 
 <template>
-   <v-autocomplete
+  <v-autocomplete
     :items="assetStore.searchSuggestions"
     v-model="rowNum"
     v-model:search="assetStore.searchTerm"
@@ -32,6 +32,8 @@
     autofocus
     :loading="assetStore.loadingSearch"
     density="comfortable"
+    variant="underlined"
+    class="pa-6"
   >
     <template v-slot:item="{ props, item }">
       <v-list-item

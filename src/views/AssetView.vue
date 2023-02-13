@@ -5,16 +5,23 @@
 
   let assetStore = useAssetStore()
   let route = useRoute()
+
   if ("rowNum" in route.params) { 
-    watch(_=> route.params.rowNum, async (newRowNum) => {
-      if (newRowNum){
-        assetStore.fetchAssetByRow(newRowNum)
-      }
-    }, {immediate: true})
+    assetStore.fetchAssetByRow(route.params.rowNum)
   }
   else if ("assetTag" in route.params) { 
     assetStore.fetchAssetByTag(route.params.assetTag)
   }
+  watch(_=> route.params.rowNum, async (newRowNum) => {
+    if (newRowNum){
+      assetStore.fetchAssetByRow(newRowNum)
+    }
+  })
+  watch(_=> route.params.assetTag, async (newAssetTag) => {
+    if (newAssetTag){
+      assetStore.fetchAssetByTag(newAssetTag)
+    }
+  })
 </script>
 
 <template>
