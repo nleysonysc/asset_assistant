@@ -8,9 +8,9 @@ import { useAssetStore } from '../stores/assetStore'
 </script>
 
 <template>
-  <div>
-    <input type="text" />
-  </div>
+  <v-input>
+    
+  </v-input>
 </template>
 
 <style scoped>
