@@ -19,18 +19,23 @@
 </script>
 
 <template>
-    <v-row>
-      <v-col>
-        <span>Show basic info (location, user, checked in, etc) {{ assetStore.activeAsset.get("Location") }}</span>
-      </v-col>
+    <v-progress-circular v-if="assetStore.loading" indeterminate>mdi-loading</v-progress-circular>
+    <v-row v-else>
       <v-col>
         <v-list nav>
           <v-list-item v-if="assetStore.activeAsset.get('Checked_In')"><v-btn>Check Out</v-btn></v-list-item>
-          <v-list-item v-else><v-btn>Check In</v-btn></v-list-item>
+          <v-list-item v-else><v-btn color="secondary">Check In</v-btn></v-list-item>
           <v-list-item>
-            <v-btn :disabled="assetStore.loading">
-              <a :href="`https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su=${encodeURIComponent('Tag: '+assetStore.activeAsset.get('Tag'))}&body=`" target="_blank">Submit Ticket</a>
+            <v-btn>
+              <a href="https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su={{assetStore.activeAsset.get('Tag')}}&body=" target="_blank">Submit Ticket</a>
             </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-col>
+      <v-col>
+        <v-list>
+          <v-list-item v-for="entry in assetStore.activeAsset.entries()">
+            {{ entry[0] }}: {{ entry[1] }}
           </v-list-item>
         </v-list>
       </v-col>

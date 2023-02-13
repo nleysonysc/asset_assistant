@@ -6,10 +6,11 @@ export const useAssetStore = defineStore('asset', () => {
   const searchResults = ref([])
   const searchSuggestions = ref([])
   let searchTerm = ref("")
-  let loading = ref(false)
+  let loadingSearch = ref(false)
+  let loadingAsset = ref(false)
 
   function activeAssetHandler(response){
-    loading.value = false
+    loadingAsset.value = false
     response = JSON.parse(response)
     if ('error' in response) {
       console.log(response.error)
@@ -20,7 +21,7 @@ export const useAssetStore = defineStore('asset', () => {
   }
 
   function searchSuggestionsHandler(response){
-    this.loading.value = false
+    loadingSearch.value = false
     response = JSON.parse(response)
     console.log(response)
     if ('error' in response) {
@@ -39,9 +40,8 @@ export const useAssetStore = defineStore('asset', () => {
         reject("Could not find asset at row "+rowNum)
       })
     }
-    
     else {
-      this.loading.value
+      loading.value
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetByRow(rowNum);
     }
   }
@@ -56,7 +56,7 @@ export const useAssetStore = defineStore('asset', () => {
     }
 
     else {
-      this.loading.value
+      loading.value
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
     }
 
@@ -72,7 +72,7 @@ export const useAssetStore = defineStore('asset', () => {
     }
 
     else {
-      this.loading.value
+      loading.value
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
     }
   }
@@ -91,7 +91,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
     else {
-        this.loading.value = true
+        loading.value = true
         google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetBySerial();
     }
   }
@@ -107,11 +107,11 @@ export const useAssetStore = defineStore('asset', () => {
         ]
       }
       else {
-        this.loading.value = true
+        loading.value = true
         google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
       }
     }
   })
 
-  return { fetchAssetBySerial, activeAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loading }
+  return { fetchAssetBySerial, activeAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
 })

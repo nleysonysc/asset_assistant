@@ -30,7 +30,7 @@
     hint="Start typing an asset or serial number"
     hide-no-data
     autofocus
-    :loading="assetStore.loading"
+    :loading="assetStore.loadingSearch"
     density="comfortable"
   >
     <template v-slot:item="{ props, item }">
