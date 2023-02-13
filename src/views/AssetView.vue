@@ -5,7 +5,6 @@
 
   let assetStore = useAssetStore()
   let route = useRoute()
-  
   if ("rowNum" in route.params) { 
     watch(_=> route.params.rowNum, async (newRowNum) => {
       if (newRowNum){
@@ -29,7 +28,7 @@
           <v-list-item v-else><v-btn variant="outlined">Check In</v-btn></v-list-item>
           <v-list-item>
             <v-btn variant="outlined">
-              <a href="https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su={{assetStore.activeAsset.get('Tag')}}&body=" target="_blank">Submit Ticket</a>
+              <a :href="'https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su='+encodeURIComponent('Tag: '+assetStore.activeAsset.get('Tag'))+'&body='" target="_blank">Submit Ticket</a>
             </v-btn>
           </v-list-item>
         </v-list>
