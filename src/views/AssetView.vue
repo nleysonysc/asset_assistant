@@ -19,14 +19,16 @@
 </script>
 
 <template>
-    <v-progress-circular v-if="assetStore.loading" indeterminate>mdi-loading</v-progress-circular>
-    <v-row v-else>
+  <v-row justify="center" v-if="assetStore.loadingAsset">
+    <v-progress-circular size="50" indeterminate></v-progress-circular>
+  </v-row>
+  <v-row v-else>
       <v-col>
         <v-list nav>
-          <v-list-item v-if="assetStore.activeAsset.get('Checked_In')"><v-btn>Check Out</v-btn></v-list-item>
-          <v-list-item v-else><v-btn color="secondary">Check In</v-btn></v-list-item>
+          <v-list-item v-if="assetStore.activeAsset.get('Checked_In')"><v-btn variant="outlined">Check Out</v-btn></v-list-item>
+          <v-list-item v-else><v-btn variant="outlined">Check In</v-btn></v-list-item>
           <v-list-item>
-            <v-btn>
+            <v-btn variant="outlined">
               <a href="https://mail.google.com/mail/?view=cm&to=helpdesk@yescharteracademy.org&su={{assetStore.activeAsset.get('Tag')}}&body=" target="_blank">Submit Ticket</a>
             </v-btn>
           </v-list-item>

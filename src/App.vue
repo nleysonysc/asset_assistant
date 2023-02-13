@@ -28,12 +28,10 @@
     <v-main>
       <v-container fluid>
         <v-app-bar app dense>
-          <nav>
+          <v-app-bar-title>
             <RouterLink to="/"><v-btn><v-icon size="x-large">mdi-home</v-icon></v-btn></RouterLink>
-          </nav>
+          </v-app-bar-title>
           
-          <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
-
           <v-btn @click="_=> showSearchDialog = true">
             <v-icon size="x-large">mdi-magnify</v-icon>
           </v-btn>
@@ -50,6 +48,8 @@
           <v-btn @click="_=> darkMode = !darkMode">
             <v-icon size="x-large">mdi-brightness-4</v-icon>
           </v-btn>
+
+          <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
 
         </v-app-bar>
 

@@ -41,7 +41,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
     else {
-      loading.value
+      loadingAsset.value = true
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetByRow(rowNum);
     }
   }
@@ -56,7 +56,7 @@ export const useAssetStore = defineStore('asset', () => {
     }
 
     else {
-      loading.value
+      loadingAsset.value = true
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetByTag();
     }
 
@@ -72,7 +72,7 @@ export const useAssetStore = defineStore('asset', () => {
     }
 
     else {
-      loading.value
+      loadingAsset.value = true
       google.script.run.withSuccessHandler(activeAssetHandler).getAssetBySerial();
     }
   }
@@ -91,7 +91,7 @@ export const useAssetStore = defineStore('asset', () => {
       })
     }
     else {
-        loading.value = true
+        loadingSearch.value = true
         google.script.run.withSuccessHandler(response=> {activeAsset.value = response.result}).getAssetBySerial();
     }
   }
@@ -107,7 +107,7 @@ export const useAssetStore = defineStore('asset', () => {
         ]
       }
       else {
-        loading.value = true
+        loadingSearch.value = true
         google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
       }
     }
