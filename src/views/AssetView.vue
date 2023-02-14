@@ -2,7 +2,7 @@
   import { watch, ref } from 'vue'
   import { useAssetStore } from '../stores/assetStore'
   import { useRoute } from "vue-router"
-  import CheckoutForm from '../components/CheckoutForm.vue';
+  import UserSearch from '../components/UserSearch.vue'
 
   let assetStore = useAssetStore()
   let route = useRoute()
@@ -24,6 +24,11 @@
       assetStore.fetchAssetByTag(newAssetTag)
     }
   })
+
+  function onUserCheckout(userVal){
+    showCheckout.value = false
+    assetStore.updateActiveAsset({'Checked_In': false, 'User': userVal})
+  }
 </script>
 
 <template>
@@ -43,12 +48,15 @@
                   <v-card>
                   <v-card-actions>
                       <v-icon color="secondary">mdi-tag-arrow-down</v-icon>
+                       <span class="text-h6 mx-2">
+                        Check Out
+                       </span>
                       <v-spacer></v-spacer>
                       <v-btn @click="showCheckout = false">
                       <v-icon>mdi-close-circle-outline</v-icon>
                       </v-btn>
                   </v-card-actions>
-                  <CheckoutForm />
+                  <UserSearch :onSubmit="onUserCheckout" buttonText="Check Out" />
                   </v-card>
               </v-dialog>
             </v-btn>

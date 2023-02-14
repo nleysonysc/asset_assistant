@@ -96,6 +96,11 @@ export const useAssetStore = defineStore('asset', () => {
     }
   }
 
+  function updateActiveAsset(values) {
+    loadingSearch.value = true
+    google.script.run.withSuccessHandler(activeAssetHandler).patchRow(activeAsset.value.get('rowNum'), values);
+  }
+
   watch(searchTerm, async(newTerm, oldTerm) => {
     // fetch search suggestions from backend
     if (newTerm.length > 2) {
@@ -113,5 +118,5 @@ export const useAssetStore = defineStore('asset', () => {
     }
   })
 
-  return { fetchAssetBySerial, activeAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
+  return { fetchAssetBySerial, activeAsset, updateActiveAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
 })
