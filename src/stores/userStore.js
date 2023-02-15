@@ -18,7 +18,9 @@ export const useUserStore = defineStore('user', () => {
   }
 
   function userSuggestionsHandler(response) {
+    loadingSearch.value = false
     response = JSON.parse(response)
+    console.log(response)
     if ('error' in response) {
       console.log(response.error)
     }
@@ -56,6 +58,7 @@ export const useUserStore = defineStore('user', () => {
       })
     }
     else {
+      loadingSearch.value = true
       google.script.run.withSuccessHandler(userSuggestionsHandler).userSuggestions(search);
     }
   }

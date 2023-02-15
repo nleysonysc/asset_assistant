@@ -10,7 +10,7 @@
   })
 
   watch(assetTag, (newTag) => {
-    if (newTag.match(/^[a-zA-Z]{4}\d{4}$/)){
+    if (newTag.match(/^[a-zA-Z]{2}[a-zA-Z0-9]{2}\d{4}$/)){
       if (typeof props.onNavigate == "function") {props.onNavigate(newTag)}
       router.push({name: 'assetByTag', params: {'assetTag': newTag}})
     }

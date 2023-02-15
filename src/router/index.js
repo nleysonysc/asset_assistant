@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AssetView from '../views/AssetView.vue'
 import BulkEditView from '../views/BulkEditView.vue'
 import BulkAddView from '../views/BulkAddView.vue'
+import BulkCheckInView from '../views/BulkCheckInView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,7 @@ const router = createRouter({
       component: AssetView
     },
     {
-      path: '/asset/:assetTag([a-zA-Z]{4}\\d{4})',
+      path: '/asset/:assetTag([a-zA-Z]{2}[a-zA-Z0-9]{2}\\d{4})',
       name: 'assetByTag',
       component: AssetView
     },
@@ -31,6 +32,11 @@ const router = createRouter({
       path: '/admin/bulkadd',
       name: 'bulkadd',
       component: BulkAddView
+    },
+    {
+      path: '/admin/bulkcheckin',
+      name: 'bulkcheckin',
+      component: BulkCheckInView
     }
   ]
 })

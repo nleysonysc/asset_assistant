@@ -16,7 +16,8 @@ export const useAssetStore = defineStore('asset', () => {
       console.log(response.error)
     }
     else {
-      activeAsset.value = new Map(JSON.parse(response.result))
+      let result = JSON.parse(response.result)
+      activeAsset.value = {rowNum: result.rowNum, data: new Map(result.data)}
     }
   }
 
@@ -34,7 +35,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function fetchAssetByRow(rowNum) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", "asdf1234"], ["RowNum", rowNum]])
+      activeAsset.value = {rowNum: 1, data: new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", "asdf1234"]])}
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset at row "+rowNum)
@@ -48,7 +49,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function fetchAssetByTag(tag) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", tag], ["RowNum", 5]])
+      activeAsset.value = {rowNum: 1, data: new Map([["Serial", 'FE34AH4'], ["Location", "room 12"], ["Checked_In", true], ["Tag", tag]])}
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset with tag "+tag)
@@ -64,7 +65,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function fetchAssetBySerial(serialNum) {
     if (import.meta.env.DEV) {
-      activeAsset.value = new Map([["Serial", serialNum], ["Location", "room 12"], ["Checked_In", true], ["Tag", 'tag'], ["RowNum", 5]])
+      activeAsset.value = {rowNum: 1, data: new Map([["Serial", serialNum], ["Location", "room 12"], ["Checked_In", true], ["Tag", 'tag']])}
       return new Promise((resolve, reject) => {
         resolve(activeAsset)
         reject("Could not find asset with tag "+tag)
@@ -80,9 +81,9 @@ export const useAssetStore = defineStore('asset', () => {
   async function fetchSearch(){
     if (import.meta.env.DEV) {
       searchResults.value = [
-        new Map([["Serial", 'FE34AH4'], ["Tag", tag], ["RowNum", 5]]),
-        new Map([["Serial", 'FE34AH4'], ["Tag", tag], ["RowNum", 5]]),
-        new Map([["Serial", 'FE34AH4'], ["Tag", tag], ["RowNum", 5]]),
+        new Map([["Serial", 'FE34AH4'], ["Tag", tag]]),
+        new Map([["Serial", 'FE34AH4'], ["Tag", tag]]),
+        new Map([["Serial", 'FE34AH4'], ["Tag", tag]]),
 
       ]
       return new Promise((resolve, reject) => {
@@ -97,8 +98,16 @@ export const useAssetStore = defineStore('asset', () => {
   }
 
   function updateActiveAsset(values) {
-    loadingSearch.value = true
-    google.script.run.withSuccessHandler(activeAssetHandler).patchRow(activeAsset.value.get('rowNum'), values);
+    loadingAsset.value = true
+    google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).patchRow(activeAsset.value.rowNum, values);
+  }
+
+  function bulkCheckIn(tags, ){
+    google.script.run
+      .withSuccessHandler(activeAssetHandler)
+      .withFailureHandler((e)=>console.log(e))
+      .withUserObject()
+      .bulkCheckIn(tags);
   }
 
   watch(searchTerm, async(newTerm, oldTerm) => {
@@ -118,5 +127,5 @@ export const useAssetStore = defineStore('asset', () => {
     }
   })
 
-  return { fetchAssetBySerial, activeAsset, updateActiveAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
+  return { fetchAssetBySerial, activeAsset, bulkCheckIn, updateActiveAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
 })
