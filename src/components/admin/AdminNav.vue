@@ -13,7 +13,9 @@
       <v-menu activator="parent">
         <v-list>
           <v-list-item>
-            <RouterLink :to="{name: 'bulkcheckin'}">Check In</RouterLink>
+            <v-btn>
+              <RouterLink :to="{name: 'bulkcheckin'}">Check In</RouterLink>
+            </v-btn>
           </v-list-item>
         </v-list>
       </v-menu>

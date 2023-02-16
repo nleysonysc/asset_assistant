@@ -1,15 +1,16 @@
 <script setup>
+  import { ref, watch } from 'vue'
   import { useAssetStore } from '../stores/assetStore'
-  import Search from "../components/Search.vue"
-  
+  import { useRouter } from 'vue-router'
+  import  QuickSearch from '../components/QuickSearch.vue'
+
   let assetStore = useAssetStore();
+
 
 </script>
 
 <template>
-  <main>
-    <Search />
-  </main>
+  <QuickSearch />
 </template>
 
 <style scoped>

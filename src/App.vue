@@ -3,9 +3,9 @@
   import { RouterLink, RouterView, useRouter } from 'vue-router'
   import { useUserStore } from './stores/userStore'
   import MobileScanner from "./components/MobileScanner.vue"
-  import Scanner from "./components/Scanner.vue"
+  import QuickScan from "./components/QuickScan.vue"
   import AdminNav from "./components/admin/AdminNav.vue"
-  import Search from './components/Search.vue'
+  import QuickSearch from './components/QuickSearch.vue'
 
   let userStore = useUserStore();
   userStore.fetchActiveUser();
@@ -14,6 +14,7 @@
   let mobileScanner = ref(false);
   onMounted(()=>{
     mobileScanner.value = "BarcodeDetector" in window ? true : false;
+    router.push('/')
   });
 
   let darkMode = ref(true);
@@ -65,7 +66,7 @@
                 <v-icon>mdi-close-circle-outline</v-icon>
               </v-btn>
             </v-card-actions>
-            <Search :onSelect="_=> showSearchDialog = false" />
+            <QuickSearch :onSelect="_=> showSearchDialog = false" />
           </v-card>
         </v-dialog>
 
@@ -97,10 +98,10 @@
                 <v-icon>mdi-close-circle-outline</v-icon>
               </v-btn>
             </v-card-actions>
-            <Scanner :onNavigate="_=> showScanner = false" />
+            <QuickScan :onNavigate="_=> showScanner = false" />
           </v-card>
         </v-dialog>
-
+        
         <RouterView />
       </v-container>
     </v-main>

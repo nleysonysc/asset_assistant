@@ -1,10 +1,11 @@
 <script setup>
   import { ref } from 'vue'
-  import Search from "../components/Search.vue"
   import { useAssetStore } from '../stores/assetStore'
 
   let assetStore = useAssetStore();
   let tagInput = ref("")
+  let loading = ref(false)
+  let messages = ref("asdf")
   let rules = [
     textAreaValue => {
       if (!textAreaValue || textAreaValue === ''){return "Enter one 8 character asset tag per line"}
@@ -21,11 +22,17 @@
     }
   ]
 
+  function onComplete(response, userObject) {
+    loading.value = false
+    messages.value = "Operation finished successfully"
+  }
+
   async function submit(e){
     let event = await e
     if (event.valid){
+      loading.value = true
       let tags = tagInput.value.split('\n').filter(line => line !== '')
-      assetStore.bulkCheckIn(tags)
+      assetStore.bulkCheckIn(tags, onComplete)
     }
   }
 
@@ -47,11 +54,12 @@
         hint="Enter one asset tag per line"
         :rules="rules"
         v-model="tagInput"
+        :loading="loading"
+        :messages="messages"
     >
     </v-textarea>
     <v-btn type="submit">Check Assets In</v-btn>
   </v-form>
-    
 </template>
 
 <style scoped>

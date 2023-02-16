@@ -102,11 +102,11 @@ export const useAssetStore = defineStore('asset', () => {
     google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).patchRow(activeAsset.value.rowNum, values);
   }
 
-  function bulkCheckIn(tags, ){
+  function bulkCheckIn(tags, callback=_=>null, userObject=null){
     google.script.run
-      .withSuccessHandler(activeAssetHandler)
+      .withSuccessHandler(callback)
       .withFailureHandler((e)=>console.log(e))
-      .withUserObject()
+      .withUserObject(userObject)
       .bulkCheckIn(tags);
   }
 

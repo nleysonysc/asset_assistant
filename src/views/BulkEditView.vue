@@ -1,5 +1,4 @@
 <script setup>
-  import Search from "../components/Search.vue"
   import { useAssetStore } from '../stores/assetStore'
 
   let assetStore = useAssetStore();
