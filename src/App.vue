@@ -2,6 +2,7 @@
   import { onMounted, ref } from 'vue';
   import { RouterLink, RouterView, useRouter } from 'vue-router'
   import { useUserStore } from './stores/userStore'
+  import { useDisplay } from 'vuetify'
   import MobileScanner from "./components/MobileScanner.vue"
   import QuickScan from "./components/QuickScan.vue"
   import AdminNav from "./components/admin/AdminNav.vue"
@@ -10,6 +11,9 @@
   let userStore = useUserStore();
   userStore.fetchActiveUser();
   let router = useRouter()
+  let drawer = ref(false)
+
+  const { xs } = useDisplay()
 
   let mobileScanner = ref(false);
   onMounted(()=>{
@@ -28,10 +32,14 @@
   <v-app>
     <v-main>
       <v-container fluid>
-        <v-app-bar app dense>
+        <v-app-bar app :collapse="xs ? true : false">
+          <v-app-bar-nav-icon v-if="xs" variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           <v-app-bar-title>
             <RouterLink to="/"><v-btn><v-icon size="x-large">mdi-home</v-icon></v-btn></RouterLink>
           </v-app-bar-title>
+
+
+          <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
           
           <v-btn @click="_=> showSearchDialog = true">
             <v-icon size="x-large">mdi-magnify</v-icon>
@@ -50,9 +58,34 @@
             <v-icon size="x-large">mdi-brightness-4</v-icon>
           </v-btn>
 
-          <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
-
         </v-app-bar>
+
+        <v-navigation-drawer
+          v-model="drawer"
+          location="bottom"
+          temporary
+        >
+          <v-btn class="w-100 my-2" @click="_=> darkMode = !darkMode">
+            <v-icon size="x-large">mdi-brightness-4</v-icon>
+            Dark Mode
+          </v-btn>
+
+          <v-btn class="w-100  my-2" @click="_=> showSearchDialog = true">
+            <v-icon size="x-large">mdi-magnify</v-icon>
+            Quick Search
+          </v-btn>
+
+          <v-btn class="w-100 my-2" @click="mobileScanner ? _=> showMobileScanner = true : _=> false">
+            <v-icon size="medium" :color="mobileScanner ? '' : 'error'">{{ mobileScanner ? 'mdi-cellphone-screenshot' : 'mdi-cellphone-off' }}</v-icon>
+            <v-icon size="medium" :color="mobileScanner ? '' : 'error'">mdi-barcode</v-icon>
+             Mobile Scan
+          </v-btn>
+
+          <v-btn class="w-100 my-2" @click="showScanner = true">
+            <v-icon size="x-large">mdi-tag-arrow-right</v-icon>
+            Quick Scan
+          </v-btn>
+        </v-navigation-drawer>
 
         <v-dialog
           v-model="showSearchDialog"
