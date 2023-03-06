@@ -14,7 +14,6 @@
 
 <template>
   <AssetForm :onSubmit="onSubmit"/>
-    
 </template>
 
 <style scoped>

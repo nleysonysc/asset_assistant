@@ -41,7 +41,6 @@
     <v-text-field
       v-model="serial"
       label="Serial Number"
-      :rules="required"
     ></v-text-field>
 
     <v-text-field
@@ -49,16 +48,16 @@
       label="Hardware Type"
       :rules="required"
     ></v-text-field>
-
+    
+    <v-text-field
+    v-model="model"
+    label="Model"
+    :rules="required"
+    ></v-text-field>
+   
     <v-text-field
       v-model="location"
       label="Location"
-      :rules="required"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="model"
-      label="Model"
       :rules="required"
     ></v-text-field>
     <h2>Optional Fields</h2>
@@ -85,10 +84,10 @@
       </v-expansion-panel>
       <v-expansion-panel title="Owner">
         <v-expansion-panel-text>
-          <v-textarea
+          <v-text-field
             v-model="owner"
             label="Owner"
-          ></v-textarea>
+          ></v-text-field>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
