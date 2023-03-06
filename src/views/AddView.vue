@@ -4,12 +4,16 @@
 
   let assetStore = useAssetStore();
 
+  async function onSubmit(e, values) {
+    let res = await e;
+    console.log(res)
+    assetStore.addAsset(values)
+  }
+
 </script>
 
 <template>
-  <main>
-    <input type="text" name="tagPrefix" />
-  </main>
+  <AssetForm :onSubmit="onSubmit"/>
     
 </template>
 

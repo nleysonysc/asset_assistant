@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AssetView from '../views/AssetView.vue'
 import BulkEditView from '../views/BulkEditView.vue'
 import BulkAddView from '../views/BulkAddView.vue'
+import AddView from '../views/AddView.vue'
 import BulkCheckInView from '../views/BulkCheckInView.vue'
 
 const router = createRouter({
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/admin/bulkadd',
       name: 'bulkadd',
       component: BulkAddView
+    },
+    {
+      path: '/admin/add',
+      name: 'add',
+      component: AddView
     },
     {
       path: '/admin/bulkcheckin',

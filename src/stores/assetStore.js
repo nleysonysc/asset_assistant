@@ -102,6 +102,10 @@ export const useAssetStore = defineStore('asset', () => {
     google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).patchRow(activeAsset.value.rowNum, values);
   }
 
+  function addAsset(values) {
+    google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).addAsset(values);
+  }
+
   function bulkCheckIn(tags, callback=_=>null, userObject=null){
     google.script.run
       .withSuccessHandler(callback)
@@ -127,5 +131,5 @@ export const useAssetStore = defineStore('asset', () => {
     }
   })
 
-  return { fetchAssetBySerial, activeAsset, bulkCheckIn, updateActiveAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
+  return { addAsset, fetchAssetBySerial, activeAsset, bulkCheckIn, updateActiveAsset, fetchAssetByRow, fetchAssetByTag, searchSuggestions, searchTerm, loadingAsset, loadingSearch }
 })

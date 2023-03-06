@@ -17,6 +17,11 @@
               <RouterLink :to="{name: 'bulkcheckin'}">Check In</RouterLink>
             </v-btn>
           </v-list-item>
+          <v-list-item>
+            <v-btn>
+              <RouterLink :to="{name: 'add'}">Add Asset</RouterLink>
+            </v-btn>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-btn>
