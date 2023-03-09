@@ -1,10 +1,23 @@
 <script setup>
-  import { onMounted, ref } from 'vue';
-import { useAssetStore } from '../stores/assetStore'
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+  import { useRouter } from 'vue-router';
   
-  let assetStore = useAssetStore();
+  let assetTag = ref("")
+  let router = useRouter()
   let stream;
   let videoEl = ref(null)
+  let scanInterval = ref()
+
+  let props = defineProps({
+    onNavigate: Function
+  })
+
+  watch(assetTag, (newTag) => {
+    if (newTag.match(/^[a-zA-Z]{2}[a-zA-Z0-9]{2}\d{4}$/)){
+      if (typeof props.onNavigate == "function") {props.onNavigate(newTag)}
+      router.push({name: 'assetByTag', params: {'assetTag': newTag}})
+    }
+  })
 
   onMounted(async () => {
     try {
@@ -26,16 +39,20 @@ import { useAssetStore } from '../stores/assetStore'
       }
       return false;
     }
-
-    videoEl.srcObject = stream;
-    await videoEl.play();
+    videoEl.value.srcObject = stream;
+    await videoEl.value.play();
     const barcodeDetector = new BarcodeDetector({formats: ['code_128', 'qr_code']});
-    window.setInterval(async () => {
-      const barcodes = await barcodeDetector.detect(videoEl);
+    scanInterval.value = window.setInterval(async () => {
+      const barcodes = await barcodeDetector.detect(videoEl.value);
       if (barcodes.length <= 0) return;
-      alert(barcodes.map(barcode => barcode.rawValue));
-    }, 600)
+      console.log(barcodes);
+      assetTag.value = barcodes[0].rawValue
+    }, 500)
   });
+
+  onBeforeUnmount(async () => {
+    clearInterval(scanInterval.value)
+  })
 
 </script>
 

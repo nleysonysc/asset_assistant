@@ -45,7 +45,7 @@
             <v-icon size="x-large">mdi-magnify</v-icon>
           </v-btn>
 
-          <v-btn @click="mobileScanner ? _=> showMobileScanner = true : _=> false">
+          <v-btn @click=" _=> {if (mobileScanner) {showMobileScanner = true}}">
             <v-icon size="medium" :color="mobileScanner ? '' : 'error'">{{ mobileScanner ? 'mdi-cellphone-screenshot' : 'mdi-cellphone-off' }}</v-icon>
             <v-icon size="medium" :color="mobileScanner ? '' : 'error'">mdi-barcode</v-icon>
           </v-btn>
@@ -75,7 +75,7 @@
             Quick Search
           </v-btn>
 
-          <v-btn class="w-100 my-2" @click="mobileScanner ? _=> showMobileScanner = true : _=> false">
+          <v-btn class="w-100 my-2" @click=" _=> {if (mobileScanner) {showMobileScanner = true}}">
             <v-icon size="medium" :color="mobileScanner ? '' : 'error'">{{ mobileScanner ? 'mdi-cellphone-screenshot' : 'mdi-cellphone-off' }}</v-icon>
             <v-icon size="medium" :color="mobileScanner ? '' : 'error'">mdi-barcode</v-icon>
              Mobile Scan
@@ -115,7 +115,7 @@
                 <v-icon>mdi-close-circle-outline</v-icon>
               </v-btn>
             </v-card-actions>
-            <MobileScanner />
+            <MobileScanner :onNavigate="_=> showMobileScanner = false" />
           </v-card>
         </v-dialog>
 
