@@ -1,6 +1,5 @@
 <script setup>
   import { useAssetStore } from '../stores/assetStore'
-  import AssetForm from '../components/AssetForm.vue'
 
   let assetStore = useAssetStore();
 

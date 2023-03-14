@@ -102,8 +102,8 @@ export const useAssetStore = defineStore('asset', () => {
     google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).patchRow(activeAsset.value.rowNum, values);
   }
 
-  function addAsset(values) {
-    google.script.run.withSuccessHandler(activeAssetHandler).withFailureHandler((e)=>console.log(e)).addAsset(values);
+  function addAsset(values, success=_=>_, failure=_=>_) {
+    google.script.run.withSuccessHandler(success).withFailureHandler(failure).addAsset(values);
   }
 
   function bulkCheckIn(tags, callback=_=>null, userObject=null){
@@ -126,7 +126,7 @@ export const useAssetStore = defineStore('asset', () => {
       }
       else {
         loadingSearch.value = true
-        google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm);
+        google.script.run.withSuccessHandler(searchSuggestionsHandler).getSearchSuggestions(newTerm, ['Tag', 'Serial']);
       }
     }
   })

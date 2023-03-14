@@ -17,6 +17,7 @@
 
   let mobileScanner = ref(false);
   onMounted(()=>{
+    console.log(useDisplay.value)
     mobileScanner.value = "BarcodeDetector" in window ? true : false;
     router.push('/')
   });
@@ -37,7 +38,6 @@
           <v-app-bar-title>
             <RouterLink to="/"><v-btn><v-icon size="x-large">mdi-home</v-icon></v-btn></RouterLink>
           </v-app-bar-title>
-
 
           <AdminNav v-if="userStore.activeUser?.auth === 'ADMIN'" />
           
